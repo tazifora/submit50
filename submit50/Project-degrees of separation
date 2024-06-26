@@ -1,0 +1,32 @@
+# Initialize data structures
+names = {}
+people = {}
+movies = {}
+
+# Define the paths to the data files
+large_dir = os.path.join(degrees_path, 'large')
+
+# Reload the data
+load_data(large_dir)
+
+# Get person IDs for Emma Watson and Jennifer Lawrence
+emma_watson_id = person_id_for_name("Emma Watson")
+jennifer_lawrence_id = person_id_for_name("Jennifer Lawrence")
+
+# Find the shortest path
+path = shortest_path(emma_watson_id, jennifer_lawrence_id)
+
+# Print the result
+if path is None:
+    result = "Not connected."
+else:
+    degrees = len(path)
+    result = f"{degrees} degrees of separation."
+    path = [(None, emma_watson_id)] + path
+    for i in range(degrees):
+        person1 = people[path[i][1]]["name"]
+        person2 = people[path[i + 1][1]]["name"]
+        movie = movies[path[i + 1][0]]["title"]
+        result += f"\n{i + 1}: {person1} and {person2} starred in {movie}"
+
+result
